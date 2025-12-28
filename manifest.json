@@ -1,0 +1,55 @@
+{
+  "manifest_version": 3,
+  "name": "MD2PDF - Open Markdown in md2pdf.dev",
+  "version": "1.0.1",
+  "description": "Adds an 'Open in MD2PDF' button next to Markdown links in Google Search results. Click the extension icon to open md2pdf.dev.",
+  "action": {
+    "default_title": "Open md2pdf.dev"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "icons/icon16.png",
+        "icons/icon32.png",
+        "icons/icon48.png",
+        "icons/icon128.png"
+      ],
+      "matches": [
+        "https://www.google.com/*",
+        "https://www.google.de/*",
+        "https://www.google.fr/*",
+        "https://www.google.pl/*"
+      ]
+    }
+  ],
+  "permissions": [
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://www.google.com/search*",
+    "https://www.google.de/search*",
+    "https://www.google.fr/search*",
+    "https://www.google.pl/search*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.google.com/search*",
+        "https://www.google.de/search*",
+        "https://www.google.fr/search*",
+        "https://www.google.pl/search*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
