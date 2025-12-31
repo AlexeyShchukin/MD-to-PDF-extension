@@ -1,5 +1,5 @@
 const MD2PDF_BASE_URL = "https://md2pdf.dev/";
-const ICON_SRC = chrome.runtime.getURL("icons/icon16.png");
+const ICON_SRC = chrome.runtime.getURL("icons/icon32.png");
 
 function isMarkdownUrl(href) {
   try {
@@ -109,6 +109,8 @@ function resolveTargetHref(rawHref) {
       }
     }
 
+    href = href.replace(/^http:/, "https:");
+
     return href;
   } catch {
     return null;
@@ -135,8 +137,8 @@ function createIcon(markdownUrl) {
   const img = document.createElement("img");
   img.src = ICON_SRC;
   img.alt = "MD2PDF";
-  img.width = 14;
-  img.height = 14;
+  img.width = 16;
+  img.height = 16;
   img.style.display = "block";
   img.style.borderRadius = "4px";
 
@@ -157,6 +159,23 @@ function createIcon(markdownUrl) {
 
   return icon;
 }
+
+async function isRealMarkdownByHead(url) {
+  try {
+    const res = await fetch(url, { method: "HEAD" }); // ✅
+    if (!res.ok) return false; // ✅
+
+    const ct = (res.headers.get("content-type") || "").toLowerCase(); // ✅
+    return (
+      ct.includes("text/markdown") ||
+      ct.includes("text/plain") ||
+      ct.includes("application/octet-stream")
+    ); // ✅
+  } catch {
+    return false;
+  }
+}
+
 
 function injectButtons(root = document) {
   const resultBlocks = root.querySelectorAll("div.MjjYud, div.g");
@@ -183,20 +202,24 @@ function injectButtons(root = document) {
 
     if (!targetAnchor || !targetHref) continue;
 
-    const normalizedHref = toRawMarkdownUrl(targetHref);
-    const icon = createIcon(normalizedHref);
+    const normalizedHref = toRawMarkdownUrl(targetHref); // ✅
 
-    // Prefer placing icon at the end of the snippet text if present.
-    const snippet =
-      block.querySelector("div.VwiC3b") ||
-      block.querySelector("div[data-sncf]") ||
-      block.querySelector("span.aCOpRe");
+    isRealMarkdownByHead(normalizedHref).then(isMd => { // ✅
+      if (!isMd) return; // ✅
 
-    if (snippet) {
-      snippet.insertAdjacentElement("beforeend", icon);
-    } else {
-      targetAnchor.insertAdjacentElement("afterend", icon);
-    }
+      const icon = createIcon(normalizedHref); // ✅
+
+      const snippet =
+        block.querySelector("div.VwiC3b") ||
+        block.querySelector("div[data-sncf]") ||
+        block.querySelector("span.aCOpRe");
+
+      if (snippet) {
+        snippet.insertAdjacentElement("beforeend", icon); // ✅
+      } else {
+        targetAnchor.insertAdjacentElement("afterend", icon); // ✅
+      }
+    });
   }
 }
 

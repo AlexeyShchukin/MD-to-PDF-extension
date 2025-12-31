@@ -1,8 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "MD2PDF - Open Markdown in md2pdf.dev",
+  "minimum_chrome_version": "88",
   "version": "1.0.1",
-  "description": "Adds an 'Open in MD2PDF' button next to Markdown links in Google Search results. Click the extension icon to open md2pdf.dev.",
+  "name": "__MSG_appName__",
+  "description": "__MSG_shortDesc__",
+  "default_locale": "en",
   "action": {
     "default_title": "Open md2pdf.dev"
   },
@@ -13,6 +15,7 @@
     "16": "icons/icon16.png",
     "32": "icons/icon32.png",
     "48": "icons/icon48.png",
+    "64": "icons/icon64.png",
     "128": "icons/icon128.png"
   },
   "web_accessible_resources": [
@@ -21,6 +24,7 @@
         "icons/icon16.png",
         "icons/icon32.png",
         "icons/icon48.png",
+        "icons/icon64.png",
         "icons/icon128.png"
       ],
       "matches": [
