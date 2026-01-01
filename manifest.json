@@ -28,10 +28,7 @@
         "icons/icon128.png"
       ],
       "matches": [
-        "https://www.google.com/*",
-        "https://www.google.de/*",
-        "https://www.google.fr/*",
-        "https://www.google.pl/*"
+        "<all_urls>"
       ]
     }
   ],
@@ -39,10 +36,7 @@
     "tabs"
   ],
   "host_permissions": [
-    "https://www.google.com/search*",
-    "https://www.google.de/search*",
-    "https://www.google.fr/search*",
-    "https://www.google.pl/search*"
+    "<all_urls>"
   ],
   "content_scripts": [
     {
